@@ -1,18 +1,81 @@
-# 🧬 Avaliação de Qualidade de Montagens de Transcriptomas – Tutorial Clássico
+Avaliação da Qualidade das Montagens de Transcriptomas
+por Tiago Belintani
 
-> *"Montar é humano, checar é divino."*
+Objetivo:
+Executar análises estatísticas, compilar resultados em tabelas comparativas e, claro, celebrar (modestamente) as primeiras vitórias na jornada dos dados.
 
-Bem-vindo, explorador das tramas moleculares! Aqui você aprenderá, passo a passo, a avaliar suas montagens de transcriptomas usando `assembly-stats` e `BUSCO`.  
-Este guia serve tanto para quem está começando quanto para aquele bioinformata já calejado.
+1. Preparando o ambiente: como um bom laboratório antigo
+Abra uma nova sessão no screen — porque terminal travado é castigo só para quem não conhece Unix desde o tempo do onça.
 
----
+screen -S stats_assembly
+Para reconectar à sessão, caso sua conexão caia (como sempre acontece no melhor momento):
 
-## ⚙️ 1. Ambiente de Trabalho
+bash
 
-### Crie um ambiente Conda com tudo o que precisa:
+screen -r stats_assembly
 
-conda create -n stats_assembly_transcriptomas -c conda-forge -c bioconda -c defaults busco python=3.11 assembly-stats
+2. Criando o ambiente Conda
+Porque ambiente bagunçado só serve para geladeira de pós-graduação.
+
+conda create -n stats_assembly_transcriptomas \
+-c conda-forge -c bioconda -c defaults \
+busco python=3.11 assembly-stats
+
+Ative o ambiente:
+
 
 conda activate stats_assembly_transcriptomas
+
+
+
+4. Gerando Estatísticas com Assembly-Stats
+Para não dizer que “tudo parece ótimo”, vamos olhar os números.
+
+Básico
+
+assembly-stats meu_assembly.fasta
+
+assembly-stats /home/seu_nome/sua_pasta/sub_pasta/assembly.fasta
+Exemplo real:
+
+assembly-stats /home/tiagobelintani/mepraia_2025/MEPRAIA/assembly/trinity_Mp17.Trinity.fasta
+
+stats for /home/tiagobelintani/mepraia_2025/MEPRAIA/assembly/trinity_Mp17.Trinity.fasta
+
+sum = 46745600, n = 58957, ave = 792.88, largest = 23813
+N50 = 1338, n = 9576
+N60 = 1012, n = 13579
+N70 = 709, n = 19083
+N80 = 462, n = 27294
+N90 = 302, n = 39966
+N100 = 169, n = 58957
+N_count = 0
+Gaps = 0
+
+
+5. Tabela Comparativa 
+Monte uma tabela  espécie. 
+
+6. Rodando o BUSCO — Porque Tradicionalista Também Gosta de Novidade
+Entre na pasta de trabalho:
+
+
+cd transcriptoma/
+mkdir busco_analises
+cd busco_analises/
+Baixe a linhagem desejada, aqui usaremos Araneae
+
+wget https://busco-data.ezlab.org/v5/data/lineages/araneae_odb12.2025-04-11.tar.gz
+tar -xzvf araneae_odb12.2025-04-11.tar.gz
+
+Rodando por meio do job
+
+Comando basico
+
+busco -i /home/seu_nome/seu_projeto/assembly/sua_assembly.fasta \
+      -l /home/seu_nome/seu_projeto/busco_analises/araneae_odb12 \
+      -o seu_assembly_BUSCO -m transcriptome -c 12 --offline
+
+Acesse o arquivo job_busco.sh para obter o modelo do job.
 
 

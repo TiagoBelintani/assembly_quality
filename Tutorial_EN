@@ -1,0 +1,84 @@
+Evaluating the Quality of Transcriptome Assemblies
+by Tiago Belintani
+
+Objective:
+To perform statistical analyses, compile results in comparative tables, and—of course—celebrate (modestly) those first victories on the grand journey through data.
+
+1. Setting Up the Environment: Like a Good Old-Fashioned Lab
+Open a new screen session—because a frozen terminal is punishment reserved for those who never learned Unix in the days of yore.
+
+
+screen -S stats_assembly
+To reconnect to your session, in case your connection drops (which, naturally, will happen at the worst possible moment):
+
+
+screen -r stats_assembly
+2. Creating the Conda Environment
+Because a messy environment only belongs in a grad student’s fridge.
+
+
+conda create -n stats_assembly_transcriptomas \
+-c conda-forge -c bioconda -c defaults \
+busco python=3.11 assembly-stats
+Activate the environment:
+
+
+conda activate stats_assembly_transcriptomas
+3. (Skipped in original)
+(You might want to add the Busco installation step here, but let’s stick to your current outline for tradition’s sake.)
+
+4. Generating Statistics with Assembly-Stats
+To avoid just saying, “Everything looks great,” let’s actually look at the numbers.
+
+Basic:
+
+
+assembly-stats my_assembly.fasta
+Or, the more elegant and explicit way with an absolute path (a habit of anyone who’s ever deleted the wrong folder):
+
+
+assembly-stats /home/your_name/your_folder/sub_folder/assembly.fasta
+Real-life example:
+
+
+assembly-stats /home/tiagobelintani/mepraia_2025/MEPRAIA/assembly/trinity_Mp17.Trinity.fasta
+Expected output:
+
+
+stats for /home/tiagobelintani/mepraia_2025/MEPRAIA/assembly/trinity_Mp17.Trinity.fasta
+
+sum = 46745600, n = 58957, ave = 792.88, largest = 23813
+N50 = 1338, n = 9576
+N60 = 1012, n = 13579
+N70 = 709, n = 19083
+N80 = 462, n = 27294
+N90 = 302, n = 39966
+N100 = 169, n = 58957
+N_count = 0
+Gaps = 0
+
+5. Comparative Table
+Build a table for each species, side by side—because comparison is the soul of science (and lunchroom debates).
+
+6. Running BUSCO — Because Even Traditionalists Like Something New
+Enter your working directory:
+
+
+cd transcriptome/
+mkdir busco_analyses
+cd busco_analyses/
+Download the desired lineage; here, we’ll use Araneae (spiders are forever):
+
+
+wget https://busco-data.ezlab.org/v5/data/lineages/araneae_odb12.2025-04-11.tar.gz
+tar -xzvf araneae_odb12.2025-04-11.tar.gz
+Run via your job script or directly—whichever keeps your cluster admins happy.
+
+Basic command:
+
+
+busco -i /home/your_name/your_project/assembly/your_assembly.fasta \
+      -l /home/your_name/your_project/busco_analyses/araneae_odb12 \
+      -o your_assembly_BUSCO -m transcriptome -c 12 --offline
+Refer to the job_busco.sh file for a job submission template.
+

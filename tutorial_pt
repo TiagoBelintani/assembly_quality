@@ -1,0 +1,18 @@
+# 🧬 Avaliação de Qualidade de Montagens de Transcriptomas – Tutorial Clássico
+
+> *"Montar é humano, checar é divino."*
+
+Bem-vindo, explorador das tramas moleculares! Aqui você aprenderá, passo a passo, a avaliar suas montagens de transcriptomas usando `assembly-stats` e `BUSCO`.  
+Este guia serve tanto para quem está começando quanto para aquele bioinformata já calejado.
+
+---
+
+## ⚙️ 1. Ambiente de Trabalho
+
+### Crie um ambiente Conda com tudo o que precisa:
+
+conda create -n stats_assembly_transcriptomas -c conda-forge -c bioconda -c defaults busco python=3.11 assembly-stats
+
+conda activate stats_assembly_transcriptomas
+
+

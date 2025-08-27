@@ -1,6 +1,6 @@
 ## Avaliação da Qualidade das Montagens de Transcriptomas
 
-Autor: (Tiago Belintani)[https://tiagobelintani.github.io/]
+Autor: [Tiago Belintani 2025](https://tiagobelintani.github.io/)
 
 **Objetivo**
 
